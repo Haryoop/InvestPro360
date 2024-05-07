@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<head>
+    <title>Update wallet</title>
+</head>
+<body>
+    <h1>Update Wallet with id {{ wallet._id }} </h1>
+    <form method="POST" action="/updateWallet/{{ wallet_id }}">
+        <input type="hidden" name="wallet_id" value="{{ wallet_id }}">
+       
+        <label for="quantite">Quantite:</label>
+        <input type="float" name="quantite" id="quantite" value="{{ wallet.quantite }}" required><br><br>
+
+       
+
+        <button type="submit">Update</button>
+    </form>
+</body>
+{% endblock %}

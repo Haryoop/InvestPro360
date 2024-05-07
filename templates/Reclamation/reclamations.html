@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>List of Reclamations</h1>
+    <a href="/addReclamation"><button class="buttonAdd" role="button">Add New Reclamation</button></a>
+    
+    <table class="display datatable">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Synopsis</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reclamation in reclamations %}
+                <tr>
+                    <td>{{ reclamation.title }}</td>
+                    <td>{{ reclamation.author }}</td>
+                    <td>{{ reclamation.synopsis }}</td>
+                    <td class="centered-cell">
+                        <a href="/updateReclamation/{{ reclamation._id }}">
+                            <i class="mdi mdi-pencil edit-button hover-effect-update"></i>
+                        </a>
+                        
+                        
+                        
+                        <a href="javascript:void(0);" onclick="showConfirmation('{{ reclamation._id }}')">
+                            <i class="fa fa-trash-alt delete-button hover-effect-delete"></i>
+                        </a>
+                                            </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Modal for confirmation -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <p>Are you sure you want to delete this reclamation?</p>
+            <button class="confirm-button" onclick="deleteReclamation()">Yes</button>
+            <button class="confirm-button" onclick="hideConfirmation()">No</button>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script>
+        let reclamationToDelete;
+        $(document).ready(function () {
+            $('.datatable').DataTable();
+        });
+    
+        function showConfirmation(reclamationId) {
+            reclamationToDelete = reclamationId;
+            document.getElementById('confirmationModal').style.display = 'block';
+        }
+    
+        function hideConfirmation() {
+            document.getElementById('confirmationModal').style.display = 'none';
+        }
+    
+        function deleteReclamation() {
+            if (!reclamationToDelete) {
+                alert("No reclamation selected for deletion.");
+                hideConfirmation();
+                return;
+            }
+    
+            // Send an AJAX request to delete the reclamation by its ID (reclamationToDelete)
+            fetch(`/deleteReclamation/${reclamationToDelete}`, { method: 'POST' })
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    } else {
+                        throw new Error('Failed to delete reclamation');
+                    }
+                })
+                .then(data => {
+                    alert(data); // Show a message from the server (Reclamation deleted or Reclamation not found)
+                    hideConfirmation(); // Hide the confirmation dialog
+                    location.reload(); // Reload the page
+                })
+                .catch(error => {
+                    alert('Error: ' + error.message);
+                    hideConfirmation();
+                });
+        }
+    </script>
+    
+    
+    
+
+{% endblock %}

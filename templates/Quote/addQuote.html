@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<head>
+    <title>Add New Quote</title>
+</head>
+<body>
+    <h1>Add New Quote</h1>
+    <form method="POST" action="/submitNewQuote" enctype="multipart/form-data">
+        <label for="celebrety">Celebrety Name:</label>
+        <input type="text" name="celebrety" id="celebrety" required><br><br>
+
+        <label for="quotee">His/Her quote:</label>
+        <input type="text" name="quotee" id="quotee" required><br><br>
+
+        <label for="image">Select an image of the celebrety:</label>
+        <input type="file" name="image" id="image" accept="image/*" required><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+{% endblock %}

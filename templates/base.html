@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    
+    <!-- Include your custom CSS file here -->
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+
+
+    
+    <style>
+       
+
+        
+        .centered-cell {
+            text-align: center;
+        }
+        .hover-effect-delete:hover {
+        background-color: #af1e1e; /* Change this color to your desired hover effect */
+        cursor: pointer;
+    }
+    .hover-effect-update:hover {
+        background-color: #2f6ac2; /* Change this color to your desired hover effect */
+        cursor: pointer;
+    }
+    /*posts */
+    .post-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Add space between posts */
+}
+    .clear-line {
+    clear: both;
+}
+
+
+.post-item {
+    background-color: #00003395; /* Use the footer color */
+    border-radius: 15px;
+    padding: 15px;
+    color: white;
+    width: calc(50% - 10px); /* Display two posts side by side with spacing */
+    box-sizing: border-box; /* Prevent extra margin or padding issues */
+
+}
+
+.post-title {
+    color: #FEFEE2; /* Change title color to match the footer links */
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 10px;
+    display: block;
+}
+.hover-effect-link:hover {
+    color: #FF9334; /* Change to the desired hover color, e.g., orange */
+}
+.post-rectangle {
+    
+    /*width: 40%;*/ /* Adjust the width as needed, but ensure it's less than 50% to fit two on the same line */
+    /*float: left;*/ /* Add this to allow two rectangles to appear side by side */
+    text-align: center; /* Center the content in the rectangle */
+    
+    border-radius: 5px;
+    padding: 10px;
+
+}
+        /* Style for the navbar */
+        nav {
+            background-color: #000033;
+            overflow: hidden;
+        }
+
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        /* Background color for all pages */
+        body {
+            background-color: #add8e6; /* Adjust the color to your preference #7c7878 */
+        }
+        nav a:hover,
+        .nav a:focus {
+    opacity: 0.75;
+}
+
+        /* Style for the line separating the navbar and content */
+        .separator {
+            border-top: 1px solid #ddd;
+        }
+        
+        /* Style for the confirmation modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent overlay background */
+            z-index: 1000; /* Ensure it appears in front of other content */
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+/* Style for making "Datatable Police" text bold */
+.datatable {
+    border-collapse: collapse; /* This property is used to collapse the borders and space between the cells. */
+    border: 0.5px solid #000033; /* Border for the entire table with a 0.5px width */
+}
+.datatable th, .datatable td {
+    border: 0.5px  solid #000033; /* Border for the table cells (th and td) */
+    padding: 8px; /* Add padding to separate content from the borders */
+}
+.datatable-police {
+            font-weight: bold;
+        }
+
+        /* Button styling */
+.buttonAdd {
+    background-color: #000033;
+    border-radius: 4px;
+    border: none;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "Farfetch Basis", "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.5;
+    margin: 0;
+    max-width: none;
+    outline: none;
+    overflow: hidden;
+    padding: 9px 20px 8px;
+    position: relative;
+    text-align: center;
+    text-transform: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: auto; /* Allow the button to adjust its width to the content */
+}
+
+.buttonAdd:hover,
+.buttonAdd:focus {
+    opacity: 0.75;
+}
+        /* Background color for all pages */
+        body {
+            background-color: #add8e6; /* Adjust the color to your preference #7c7878 */
+        }
+        
+.delete-button {
+    /*color: red;*/
+            color: rgb(8, 8, 8);
+        }
+.edit-button {
+            color: rgb(6, 6, 6);
+        }
+        /*footer style*/
+        footer {
+            background-color: #000033;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            
+        }
+        
+
+        .footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sections {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .section {
+            flex-basis: 22%; /* Adjust to control the width of each section */
+        }
+
+        .section p {
+            margin: 0;
+        }
+
+        .section p a {
+            text-decoration: none;
+            font-weight: normal;
+            font-size: 14px; /* Adjust the font size as needed */
+        }
+
+        .separator {
+            width: 100%;
+            border-top: 1px solid #ddd;
+        }
+        /*footer sub section*/
+        .footer-sub-section {
+    color: #FEFEE2;
+    transition: color 0.2s; /* Smooth color transition on hover */
+}
+
+.footer-sub-section:hover {
+    color: rgb(255, 147, 52); /* Change the color to black on hover */
+}
+/*carousel*/
+.center-carousel {
+    margin: 0 auto; /* Auto left and right margin for centering */
+    display: block; /* Ensure it's a block-level element for the margin to work */
+    text-align: center; /* Center-align the contents inside the carousel */
+}
+
+
+
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/home">Home</a>
+        <a href="/persons">Persons</a>
+        <a href="/reclamations">Reclamations</a>
+        <a href="/posts">Posts</a>
+        <a href="/wallets">Wallet</a>
+        <a href="/transactions">Transactions</a>
+        <a href="/markets">Market</a>
+        <a href="/prediction">Prediction</a>
+    </nav>
+    <div class="separator"></div> <!-- Add the separator line -->
+    
+        {% block content %}{% endblock %}
+    
+    <footer>
+        <div class="footer-content">
+            <div class="sections">
+               
+                <div class="section">
+                    <p><strong><u>INFORMATIONS</u></strong></p>
+                    <p><a href="#" class="footer-sub-section">About us</a></p>
+                    <p><a href="#" class="footer-sub-section">Management Team</a></p>
+                </div>
+                <div class="section">
+                    <p><strong><u>CONTACT US</u></strong></p>
+                    <p><a href="#" class="footer-sub-section">InvestPro360@gmail.com</a></p>
+
+                    <p><a href="#" class="footer-sub-section">Tel:71938441</a></p>
+                    <p><a href="#" class="footer-sub-section">tel:50761553</a></p>
+
+                </div>
+                <div class="section">
+                    <p><strong><u>SUPPORT US</u></strong></p>
+                    <p><a href="#" class="footer-sub-section">www.facebook.com/InvestPro360</a></p>
+                    <p><a href="#" class="footer-sub-section">instagram:@InvestPro360</a></p>
+
+
+                </div>
+
+            </div>
+        </div>
+        <div class="separator"></div> <!-- Add the separator line between your website name and sections -->
+        <p>&copy; 2023 InvestPro360. All rights reserved.</p>
+        
+    </footer>
+</body>
+</html>

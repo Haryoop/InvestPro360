@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<head>
+    <title>Update reclamation</title>
+</head>
+<body>
+    <h1>Update Reclamation with id {{ reclamation._id }} and name {{ reclamation.title }}</h1>
+    <form method="POST" action="/updateReclamation/{{ reclamation_id }}">
+        <input type="hidden" name="reclamation_id" value="{{ reclamation_id }}">
+        <label for="title">title:</label>
+        <input type="text" name="title" id="title" value="{{ reclamation.title }}" required><br><br>
+
+        <label for="author">Author:</label>
+        <input type="text" name="author" id="author" value="{{ reclamation.author }}" required><br><br>
+
+        <label for="synopsis">Synopsis:</label>
+        <input type="text" name="synopsis" id="synopsis" value="{{ reclamation.synopsis }}" required><br><br>
+
+        <button type="submit">Update</button>
+    </form>
+</body>
+{% endblock %}

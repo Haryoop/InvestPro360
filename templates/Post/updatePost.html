@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<head>
+    <title>Update Post</title>
+</head>
+<body>
+    <a href="/posts">back to list</a>
+    <h1>Updating your selected post, please type in the new information:</h1>
+    <form method="POST" action="/updatePost/{{ post_id }}">
+        <input type="hidden" name="post_id" value="{{ post_id }}">
+        <label for="title">The new title:</label>
+        <input type="text" name="title" id="title" value="{{ post.title }}" required><br><br>
+
+        <label for="author">The new author:</label>
+        <input type="text" name="author" id="author" value="{{ post.author }}" required><br><br>
+
+        <label for="contenu">The new content:</label>
+        <input type="text" name="contenu" id="contenu" value="{{ post.contenu }}" required><br><br>
+        <button type="submit" class="buttonAdd">Update</button>
+        NOTE: After submitting with this button, your post will be updated!
+    </form>
+</body>
+{% endblock %}

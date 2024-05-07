@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>My Wallet</h1>
+    <a href="/addWallet"><button class="buttonAdd" role="button">Add to Wallet</button></a>
+    
+    <table class="display datatable">
+        <thead>
+            <tr>
+                <th style="font-weight: bold; text-align: center; font-size: larger;">Sum Of Money in TND</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            {% for wallet in wallets %}
+                <tr>
+                    <td>{{ wallet.quantite }}</td>
+                
+                    <td class="centered-cell">
+                        <a href="/updateWallet/{{ wallet._id }}">
+                            <i class="mdi mdi-pencil edit-button hover-effect-update"></i>
+                        </a>
+                        
+                        
+                        
+                        <a href="javascript:void(0);" onclick="showConfirmation('{{ wallet._id }}')">
+                            <i class="fa fa-trash-alt delete-button hover-effect-delete"></i>
+                        </a>
+                                            </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td style="text-align: center; font-size: 18px;">
+                    <strong>Total: <span id="totalQuantity">0</span></strong>
+                </td>
+            </tr>
+        </tfoot>
+        
+    </table>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Calculate and update the total quantity
+            updateTotalQuantity();
+    
+            // Function to update the total quantity
+            function updateTotalQuantity() {
+                var totalQuantity = 0;
+                var quantityCells = document.querySelectorAll('tbody td:first-child'); // Select the first cell in each row
+    
+                for (var i = 0; i < quantityCells.length; i++) {
+                    totalQuantity += parseInt(quantityCells[i].textContent) || 0;
+                }
+    
+                document.getElementById('totalQuantity').innerText = totalQuantity;
+            }
+        });
+    </script>
+        
+
+    <!-- Modal for confirmation -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <p>Are you sure you want to delete this wallet?</p>
+            <button class="confirm-button" onclick="deleteWallet()">Yes</button>
+            <button class="confirm-button" onclick="hideConfirmation()">No</button>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script>
+        let walletToDelete;
+        $(document).ready(function () {
+    $('.datatable').DataTable();
+});
+
+
+        function showConfirmation(walletId) {
+            walletToDelete = walletId;
+            document.getElementById('confirmationModal').style.display = 'block';
+        }
+
+        function hideConfirmation() {
+            document.getElementById('confirmationModal').style.display = 'none';
+        }
+
+        function deleteWallet() {
+    if (!walletToDelete) {
+        alert("No wallet selected for deletion.");
+        hideConfirmation();
+        return;
+    }
+
+    // Send an AJAX request to delete the wallet by their ID (walletToDelete)
+    fetch(`/deleteWallet/${walletToDelete}`, { method: 'POST' })
+        .then(response => {
+            if (response.ok) {
+                return response.text();
+            } else {
+                throw new Error('Failed to delete wallet');
+            }
+        })
+        .then(data => {
+            alert(data); // Show a message from the server (wallet deleted or wallet not found)
+            hideConfirmation(); // Hide the confirmation dialog
+            location.reload(); // Reload the page
+        })
+        .catch(error => {
+            alert('Error: ' + error.message);
+            hideConfirmation();
+        });
+}
+
+
+    </script>
+  
+        
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<head>
+    <title>Add to wallet</title>
+</head>
+<body>
+    <h1>Add to Wallet</h1>
+    <form method="POST" action="/submitNewWallet">
+        <label for="quantite">Quantite:</label>
+        <input type="float" name="quantite" id="quantite" required><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+{% endblock %}

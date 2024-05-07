@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>List of Persons</h1>
+    <a href="/addPerson"><button class="buttonAdd" role="button">Add New Person</button></a>
+    <table class="display datatable">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Age</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody class="custom-table-content">
+            {% for person in persons %}
+                <tr>
+                    <td>{{ person.first_name }}</td>
+                    <td>{{ person.last_name }}</td>
+                    <td>{{ person.age }}</td>
+                    <td class="centered-cell">
+                        <a href="/updatePerson/{{ person._id }}"><button>Update</button></a>
+                        <a href="javascript:void(0);" onclick="showConfirmation('{{ person._id }}')">
+                            <i class="fa fa-trash-alt delete-button"></i>
+                        </a>
+                                            </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    
+
+    <!-- Modal for confirmation -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <p>Are you sure you want to delete this person?</p>
+            <button class="confirm-button" onclick="deletePerson()">Yes</button>
+            <button class="confirm-button" onclick="hideConfirmation()">No</button>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script>
+        let personToDelete;
+        $(document).ready(function () {
+    $('.datatable').DataTable();
+});
+
+
+        
+        function showConfirmation(personId) {
+            personToDelete = personId;
+            document.getElementById('confirmationModal').style.display = 'block';
+        }
+
+        function hideConfirmation() {
+            document.getElementById('confirmationModal').style.display = 'none';
+        }
+
+        function deletePerson() {
+    if (!personToDelete) {
+        alert("No person selected for deletion.");
+        hideConfirmation();
+        return;
+    }
+
+    // Send an AJAX request to delete the person by their ID (personToDelete)
+    fetch(`/deletePerson/${personToDelete}`, { method: 'POST' })
+        .then(response => {
+            if (response.ok) {
+                return response.text();
+            } else {
+                throw new Error('Failed to delete person');
+            }
+        })
+        .then(data => {
+            alert(data); // Show a message from the server (Person deleted or Person not found)
+            hideConfirmation(); // Hide the confirmation dialog
+            location.reload(); // Reload the page
+        })
+        .catch(error => {
+            alert('Error: ' + error.message);
+            hideConfirmation();
+        });
+}
+
+    </script>
+    
+    
+    
+
+{% endblock %}

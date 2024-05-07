@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<a href="/posts">Back to Posts</a>
+    <h1>Post Details</h1>
+    <div class="post-container">
+    <div class="post-item">
+        <h2>{{ post.title }}</h2>
+        <p><strong>Author:</strong> {{ post.author }}</p>
+        <p><strong>Content:</strong> {{ post.contenu }}</p>
+        <p><strong>Created Date:</strong> {{ post.creation_date }}</p>
+        <p><a href="/updatePost/{{ post._id }}">
+            <i class="mdi mdi-pencil edit-button hover-effect-update"></i>
+        </a>
+        <a href="javascript:void(0);" onclick="showConfirmation('{{ post._id }}')">
+            <i class="fa fa-trash-alt delete-button hover-effect-delete"></i>
+        </a>
+        </p>
+        <p>
+            <a href="/addComment/{{ post._id }}">Comment</a>
+        </p>
+    </div>
+    </div>
+{% endblock %}

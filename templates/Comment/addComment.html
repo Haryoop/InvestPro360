@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<a href="/posts">Back to Posts</a>
+    <h1>Comment the post</h1>
+    <form method="post" action="/submitNewComment">
+        <input type="hidden" name="post_id" value="{{ post_id }}">
+        <label for="author">Author:</label>
+        <input type="text" name="author" required>
+        <br>
+        <label for="contenu">Comment:</label>
+        <textarea name="contenu" rows="4" required></textarea>
+        <br>
+        <button type="submit">Submit Comment</button>
+    </form>
+{% endblock %}
